@@ -165,12 +165,12 @@ fn extract_maven_version(file_contents: &str) -> Option<String> {
 fn get_package_version(base_dir: &PathBuf, config: &PackageConfig) -> Option<String> {
     if let Ok(cargo_toml) = utils::read_file(base_dir.join("Cargo.toml")) {
         extract_cargo_version(&cargo_toml)
+    } else if let Ok(composer_json) = utils::read_file(base_dir.join("composer.json")) {
+        extract_composer_version(&composer_json)
     } else if let Ok(package_json) = utils::read_file(base_dir.join("package.json")) {
         extract_package_version(&package_json, config.display_private)
     } else if let Ok(poetry_toml) = utils::read_file(base_dir.join("pyproject.toml")) {
         extract_poetry_version(&poetry_toml)
-    } else if let Ok(composer_json) = utils::read_file(base_dir.join("composer.json")) {
-        extract_composer_version(&composer_json)
     } else if let Ok(build_gradle) = utils::read_file(base_dir.join("build.gradle")) {
         extract_gradle_version(&build_gradle)
     } else if let Ok(project_toml) = utils::read_file(base_dir.join("Project.toml")) {
